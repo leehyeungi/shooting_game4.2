@@ -1,4 +1,3 @@
-# shooting_game4.2
 import pygame
 import random
 
@@ -202,9 +201,14 @@ enemy_count = 0
 boss_count = 0
 shields = 0
 item_li = 0
+count = 0
 space_bar = 0
 shield_score = 0
 boss_score = 0
+blt_count = 0
+
+#클래스 리스트
+cls_list = [shield, plus]
 
 bullet_group = pygame.sprite.Group()
 
@@ -255,9 +259,6 @@ while running:
                 bullets += 1
                 if bullets == 1000:
                     running = False
-        elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_SPACE:
-                space_bar = 0
 
     #스코어 점수가 400이 되면 보스 출현
     if player.score % 400 == 0:
@@ -311,12 +312,17 @@ while running:
         if hit:
             shields += 1
             shield.rect.x = (player.rect.x + player.rect.width/2) - shield.rect.width/2
-            shield.rect.y = (player.rect.y + player.rect.height/2) - shield.rect.height/2
+            shield.rect.y = player.rect.y
+            count += 1
             shield_score += 1
     
     if shield_score == 1:
         shield_group.add(shield)
         shield_score = 0
+
+    if count == 1:
+        shield.rect.x = (player.rect.x + player.rect.width/2) - shield.rect.width/2
+        shield.rect.y = player.rect.y
             
     if shield.alive():
         pygame.sprite.groupcollide(shield_group, enemy_group, True, True)
